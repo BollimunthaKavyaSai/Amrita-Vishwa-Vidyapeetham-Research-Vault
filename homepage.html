@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Amrita Research Paper Vault</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTerm = sessionStorage.getItem("lastSearch");
+      if (savedTerm) {
+        document.getElementById("searchInput").value = savedTerm;
+      }
+      window.addEventListener("beforeunload", () => {
+        sessionStorage.removeItem("lastSearch");
+      });
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => window.scrollTo({ top: 600, behavior: 'smooth' }));
+      });
+    });
+
+    function searchPapers() {
+      const term = document.getElementById("searchInput").value.trim();
+      if (!term) return;
+      const searchMode = guessIfAuthorSearch(term) ? "author" : "general";
+      sessionStorage.setItem("lastSearch", term);
+      window.location.href = `results.html?term=${encodeURIComponent(term)}&mode=${searchMode}`;
+    }
+    function guessIfAuthorSearch(term) {
+      return /^[A-Z][a-z]+\s+[A-Z][a-z]+/.test(term);
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#4f46e5] text-white min-h-screen font-sans">
+<br>
+  <!-- NAVBAR -->
+  <nav>
+    <a href="homepage.html" class="button">Home</a>
+    <a href="contact.html" class="button">Contact</a>
+    <a href="about.html" class="button">About Us</a>
+    <a href="faq.html" class="button">FAQ</a>
+    <a href="blog.html" class="button">Blog/News</a>
+    <a href="dashboard.html" class="button">Dashboard</a>
+  </nav>
+
+  <!-- ⛳ HEADER -->
+  <header class="p-6 text-center">
+    <h1 class="animate__animated animate__fadeInDown text-3xl sm:text-4xl font-bold my-4">
+      Welcome to Academic Portal
+    </h1>
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-500 animate-pulse">
+      📚 Amrita Vishwa Vidyapeetham Research Vault
+    </h1>
+    <p class="mt-4 text-lg text-gray-300">Explore and get inspired by student-published research papers from our campus.</p>
+  </header>
+
+  <!-- 🔍 SEARCH BAR -->
+  <section class="mt-10 flex justify-center">
+    <input 
+      type="text" 
+      placeholder="Search by Domain, Keywords, Year, Author, DOI..." 
+      id="searchInput"
+      class="w-2/3 md:w-1/2 px-6 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-4 ring-cyan-400 shadow-lg"
+    />
+  </section>
+  <div class="mt-4 flex justify-center">
+    <button onclick="searchPapers()" class="button bg-cyan-500 hover:bg-cyan-600 px-6 py-2 rounded-xl text-white font-bold shadow-xl transition duration-300">
+      🔍 Search Papers
+    </button>
+  </div>
+
+  <!-- 📂 DOMAIN BUTTONS -->
+  <section class="mt-10 text-center">
+    <h2 class="text-xl mb-4 text-gray-200">Browse by Domain</h2>
+    <div class="flex flex-wrap justify-center gap-4 mb-6">
+      <button onclick="window.location.href='domain.html?domain=AI'" class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-full text-white">AI</button>
+      <button onclick="window.location.href='domain.html?domain=IoT'" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-full text-white">IoT</button>
+      <button onclick="window.location.href='domain.html?domain=Machine Learning'" class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-full text-white">Machine Learning</button>
+      <button onclick="window.location.href='domain.html?domain=Cybersecurity'" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full text-white">Cybersecurity</button>
+      <button onclick="window.location.href='domain.html?domain=Data Science'" class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-full text-black">Data Science</button>
+      <button onclick="window.location.href='domain.html?domain=Cloud Computing'" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-full text-white">Cloud Computing</button>
+      <button onclick="window.location.href='domain.html?domain=Blockchain'" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-full text-white">Blockchain</button>
+      <button onclick="window.location.href='domain.html?domain=Networks'" class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-full text-white">Networks</button>
+      <button onclick="window.location.href='domain.html?domain=NLP'" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-full text-white">NLP</button>
+      <button onclick="window.location.href='domain.html?domain=Robotics'" class="bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded-full text-white">Robotics</button>
+      <button onclick="window.location.href='domain.html?domain=Image Processing'" class="bg-cyan-700 hover:bg-cyan-800 px-4 py-2 rounded-full text-white">Image Processing</button>
+    </div>
+  </section>
+
+  <!-- 📃 ALL PAPERS LINK -->
+  <div class="mt-8 text-center">
+    <a href="allpapers.html" class="button bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+      📄 View All Papers
+    </a>
+  </div>
+
+  <!-- 📝 REVIEW SECTION -->
+  <!-- Keep your review form script and section as is, unchanged -->
+
+  <!-- ⛳ FOOTER -->
+  <footer class="mt-20 bg-[#0f172a] py-6 text-center text-gray-400 text-sm border-t border-cyan-400/10">
+    &copy; 2025 Amrita Vishwa Vidyapeetham. All rights reserved. | Built with 💙 for students by students.
+  </footer>
+
+  <!-- 🧠 REVIEW FUNCTIONS -->
+  <script>
+    document.getElementById("reviewForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const name = document.getElementById("reviewerName").value;
+      const review = document.getElementById("reviewText").value;
+
+      const response = await fetch("http://localhost:3000/submit-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, review })
+      });
+
+      if (response.ok) {
+        document.getElementById("submitMsg").classList.remove("hidden");
+        document.getElementById("reviewForm").reset();
+        fetchReviews();
+      }
+    });
+
+    async function fetchReviews() {
+      const res = await fetch("http://localhost:3000/get-reviews");
+      const reviews = await res.json();
+      const container = document.getElementById("reviewDisplay");
+      container.innerHTML = "";
+
+      reviews.forEach(r => {
+        container.innerHTML += `
+          <div class="bg-[#1e293b] p-4 rounded-xl shadow border border-cyan-300/20 text-left">
+            <p class="text-gray-300 italic">"${r.review}"</p>
+            <p class="mt-2 text-cyan-400 font-semibold">– ${r.name}</p>
+            <p class="text-sm text-gray-500">${new Date(r.timestamp).toLocaleString()}</p>
+          </div>
+        `;
+      });
+    }
+
+    let reviewsVisible = false;
+
+    function toggleReviews() {
+      const section = document.getElementById("reviewSectionContent");
+      reviewsVisible = !reviewsVisible;
+      if (reviewsVisible) {
+        section.classList.remove("hidden");
+        fetchReviews();
+      } else {
+        section.classList.add("hidden");
+      }
+    }
+
+    // Initial call for reviews
+    fetchReviews();
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 40%, #3a0088 45%, #0e0026 100%, #e910e1 100%);
+    }
+    .glow-box {
+      box-shadow: 0 0 32px 8px #ffffff22;
+      border-radius: 24px;
+      background: linear-gradient(135deg,#420075 60%, #d30978);
+      border: 1px solid #ffffff22;
+    }
+    .button {
+      background: #06b6d4;
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: white;
+      transition: .2s;
+    }
+    .button:hover { background: #0891b2; }
+  </style>
+</head>
+<body class="text-white min-h-screen font-sans">
+  <!-- NAV -->
+  <nav class="flex items-center gap-3 p-4">
+    <a href="homepage.html" class="button">Search</a>
+    <a href="blog.html" class="button">Blog</a>
+    <a href="faq.html" class="button">FAQ</a>
+    <span class="flex-1"></span>
+    <span id="authBox" class="flex items-center gap-2"></span>
+  </nav>
+
+  <!-- Welcome hero -->
+  <header class="p-6 text-center">
+    <h1 class="animate__animated animate__fadeInDown text-3xl sm:text-4xl font-bold my-4">
+      Welcome to Academic Portal
+    </h1>
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-500 animate-pulse">
+      📚 Amrita Vishwa Vidyapeetham Research Vault
+    </h1>
+    <p class="mt-4 text-lg text-pink-200">
+      Explore and get inspired by student-published research papers from our campus.
+    </p>
+  </header>
+
+  <!-- Dashboard cards -->
+  <section class="flex flex-wrap justify-center gap-10 mt-10 px-6">
+    <!-- Profile card -->
+    <div class="glow-box p-6 w-[320px]">
+      <h2 class="text-2xl mb-3 font-bold">Profile</h2>
+      <div id="profileContainer" class="space-y-2 text-pink-100"></div>
+    </div>
+
+    <!-- Recent activity (placeholder; wire later if needed) -->
+    <div class="glow-box p-6 w-[320px]">
+      <h2 class="text-2xl mb-3 font-bold">Recent Activity</h2>
+      <div id="activityContainer" class="space-y-2 text-pink-100">
+        <p class="opacity-80">No recent activity yet.</p>
+      </div>
+    </div>
+
+    <!-- Recent blogs (placeholder; wire later if needed) -->
+    <div class="glow-box p-6 w-[320px]">
+      <h2 class="text-2xl mb-3 font-bold">Recent Blogs</h2>
+      <ul id="blogsContainer" class="list-disc pl-5 text-pink-100 space-y-1">
+        <li class="opacity-80">Latest posts will appear here.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script>
+    // Read auth state
+    function token() { return localStorage.getItem('authToken'); }
+    function cachedUser() { try { return JSON.parse(localStorage.getItem('authUser')||'null'); } catch { return null; } }
+
+    async function logout() {
+      try { await fetch('http://localhost:3000/auth/logout', { method: 'POST' }); } catch {}
+      localStorage.removeItem('authUser');
+      localStorage.removeItem('authToken');
+      location.href = 'login.html';
+    }
+
+    async function loadProfile() {
+      const t = token(), u = cachedUser();
+      if (!t || !u) return location.href = 'login.html';
+
+      // Navbar welcome
+      const authBox = document.getElementById('authBox');
+      if (authBox) {
+        authBox.innerHTML = `
+          <span class="text-sm">Welcome, <span class="text-cyan-300">${u.username}</span></span>
+          <button class="button" onclick="logout()">Logout</button>
+        `;
+      }
+
+      // Refresh from /me
+      let user = u;
+      try {
+        const r = await fetch('http://localhost:3000/me', { headers: { Authorization: 'Bearer ' + t } });
+        if (r.ok) {
+          const d = await r.json();
+          user = d.user || u;
+          localStorage.setItem('authUser', JSON.stringify(user));
+        } else if (r.status === 401) {
+          return location.href = 'login.html';
+        }
+      } catch {}
+
+      // Render profile
+      const el = document.getElementById('profileContainer');
+      if (el) {
+        el.innerHTML = `
+          <div class="bg-[#1e293b] p-5 rounded-xl border border-cyan-400/30">
+            <p>Username: <span class="font-semibold">${user.username}</span></p>
+            <p>Email: ${user.email || '-'}</p>
+            <p>Role: ${user.role || 'user'}</p>
+            <button onclick="logout()" class="mt-4 button">Logout</button>
+          </div>
+        `;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProfile);
+  </script>
+</body>
+</html>

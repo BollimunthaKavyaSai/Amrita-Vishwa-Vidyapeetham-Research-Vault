@@ -1,0 +1,54 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="styles.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-0f172a via-1e293b to-4f46e5 text-white min-h-screen font-sans">
+  <nav class="p-4 flex gap-4">
+    <a href="homepage.html" class="button">Home</a>
+    <a href="login.html" class="button">Login</a>
+  </nav>
+
+  <section class="max-w-md mx-auto mt-12 bg-[#1e293b] p-8 rounded-2xl shadow-xl border border-cyan-400/30">
+    <h1 class="text-2xl font-bold text-cyan-300 mb-6">Create account</h1>
+    <form id="signupForm" class="space-y-4">
+      <input id="username" class="w-full px-4 py-3 rounded-xl text-gray-900" placeholder="Username" required>
+      <input id="email" type="email" class="w-full px-4 py-3 rounded-xl text-gray-900" placeholder="Email" required>
+      <input id="password" type="password" class="w-full px-4 py-3 rounded-xl text-gray-900" placeholder="Password" required>
+      <button class="w-full bg-cyan-600 hover:bg-cyan-700 py-3 rounded-xl font-bold">Sign up</button>
+    </form>
+    <p id="msg" class="mt-4 text-sm text-red-300 hidden"></p>
+  </section>
+  <script>
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      username: document.getElementById('username').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      password: document.getElementById('password').value
+    };
+    const res = await fetch('http://localhost:3000/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      // Do NOT save token/user here. Force login step.
+      sessionStorage.setItem('toast', 'You have successfully signed up. You can login now.');
+      window.location.href = 'login.html';
+    } else {
+      const m = document.getElementById('msg');
+      m.textContent = data.error || 'Sign up failed';
+      m.classList.remove('hidden');
+    }
+  });
+</script>
+
+</body>
+</html>

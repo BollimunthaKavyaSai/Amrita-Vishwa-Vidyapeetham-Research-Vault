@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Research Vault</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .chip { background:#0ea5e9; color:white; padding:2px 10px; border-radius:9999px; font-size:.8rem; }
+    .card { background:#0b1220; border:1px solid rgba(34,211,238,.25); border-radius:16px; }
+    .sec { padding: 2.5rem 1.25rem; }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-white min-h-screen font-sans">
+  <!-- Top nav -->
+  <nav class="flex items-center gap-3 p-4 border-b border-cyan-400/10">
+    <a href="homepage.html" class="bg-cyan-600 px-3 py-1 rounded">Home</a>
+    <a href="dashboard.html" class="bg-cyan-600 px-3 py-1 rounded">Dashboard</a>
+    <a href="#overview" class="underline">Overview</a>
+    <a href="#features" class="underline">Features</a>
+    <a href="#how" class="underline">How to use</a>
+    <a href="#data" class="underline">Data & Search</a>
+    <a href="#account" class="underline">Account</a>
+    <a href="#faq" class="underline">FAQs</a>
+    <a href="#contact" class="underline">Contact</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="text-center px-6 py-10">
+    <p class="chip inline-block">About this website</p>
+    <h1 class="text-4xl md:text-5xl font-extrabold mt-3 text-cyan-300">Amrita Research Paper Vault</h1>
+    <p class="text-gray-300 mt-3 max-w-3xl mx-auto">
+      A student‑first portal to discover campus research, browse domains, search papers, read updates, and collaborate via blogs and FAQs.
+    </p>
+  </header>
+
+  <!-- Overview -->
+  <section id="overview" class="sec">
+    <div class="max-w-5xl mx-auto card p-6">
+      <h2 class="text-2xl font-bold text-cyan-300">Overview</h2>
+      <p class="text-gray-300 mt-2">
+        The vault centralizes student‑published research papers and provides fast search across titles, authors, domains, years, keywords, and DOIs. It also offers an activity layer with reviews, blogs, and FAQs for knowledge sharing.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="sec bg-[#0b1325]">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-cyan-300 mb-4">Key features</h2>
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Powerful search</h3>
+          <p class="text-gray-300 mt-2">Search by domain, keywords, year, author, or DOI with instant paging.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Domain browsing</h3>
+          <p class="text-gray-300 mt-2">Quick filters like AI, IoT, Cybersecurity, Data Science, and more.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Activity & community</h3>
+          <p class="text-gray-300 mt-2">Reviews on the homepage, blogs for updates, and FAQs for Q&A.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Personal dashboard</h3>
+          <p class="text-gray-300 mt-2">See the current profile, quick links, and recent activity in one place.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Contact integration</h3>
+          <p class="text-gray-300 mt-2">Contact form auto‑fills the logged‑in user’s name and email.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-cyan-200">Secure auth</h3>
+          <p class="text-gray-300 mt-2">Password hashing and JWT‑based sessions with profile‑aware pages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to use -->
+  <section id="how" class="sec">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-cyan-200">Getting started</h3>
+        <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+          <li>Sign up on the signup page. A success message will ask to login.</li>
+          <li>Login to get redirected to the Dashboard with the current profile.</li>
+          <li>Use the navbar to jump to Search, Blog, FAQ, and Contact.</li>
+        </ul>
+      </div>
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-cyan-200">Daily workflow</h3>
+        <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+          <li>Search or browse domains to discover papers.</li>
+          <li>Add reviews from the homepage review section.</li>
+          <li>Post updates in Blog and ask/answer in FAQs.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data & Search -->
+  <section id="data" class="sec bg-[#0b1325]">
+    <div class="max-w-5xl mx-auto card p-6">
+      <h2 class="text-2xl font-bold text-cyan-300">Data & Search</h2>
+      <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+        <li>Papers are loaded from the campus dataset (CSV) and indexed in memory for rapid search.</li>
+        <li>The search endpoint returns paginated results with total matches for smooth browsing.</li>
+        <li>Common filters: domain, keywords, year, author names, and DOI substrings.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Account & Security -->
+  <section id="account" class="sec">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-cyan-200">Accounts</h3>
+        <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+          <li>Signup creates a user with role “user”; a toast asks to login.</li>
+          <li>Login stores the profile and token; Dashboard renders the current user.</li>
+          <li>Logout clears the token and redirects to the login page.</li>
+        </ul>
+      </div>
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-cyan-200">Security</h3>
+        <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+          <li>Passwords are hashed; tokens expire and are verified on protected routes.</li>
+          <li>Contact can read email from the token if the field is left blank while logged in.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs quick pointers -->
+  <section id="faq" class="sec bg-[#0b1325]">
+    <div class="max-w-5xl mx-auto card p-6">
+      <h2 class="text-2xl font-bold text-cyan-300">FAQs (quick)</h2>
+      <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-2">
+        <li>Why can’t I comment or like? Ensure login; actions require an active session.</li>
+        <li>Where is my email on Contact? It auto‑fills from the logged‑in profile.</li>
+        <li>How do I view all papers? Use the “View All Papers” button or domain links.</li>
+      </ul>
+      <p class="mt-3"><a href="faq.html" class="underline text-cyan-300">Go to full FAQs</a></p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="sec">
+    <div class="max-w-5xl mx-auto card p-6">
+      <h2 class="text-2xl font-bold text-cyan-300">Contact</h2>
+      <p class="text-gray-300 mt-2">
+        Use the Contact page to send feedback. If logged in, the form auto‑fills with the current profile’s name and email. After submission, a toast confirms: “Your message submitted. We will reach out to you ASAP.”
+      </p>
+      <p class="mt-3"><a href="contact.html" class="underline text-cyan-300">Open Contact page</a></p>
+    </div>
+  </section>
+
+  <!-- Credits -->
+  <section class="sec bg-[#0b1325]">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="text-gray-400">© 2025 Amrita Research Paper Vault — Built by students for students.</p>
+    </div>
+  </section>
+</body>
+</html>

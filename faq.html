@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 40%, #3a0088 45%, #0e0026 100%, #e910e1 100%);
+    }
+    .glow-box {
+      box-shadow: 0 0 32px 8px #ffffff;
+      border-radius: 32px;
+      background: linear-gradient(135deg,#420075 60%, #d30978);
+      border: none;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen font-sans">
+  <!-- Add this NAV at the top under <body> -->
+<nav class="flex items-center gap-3 p-4">
+  <a href="homepage.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Home</a>
+  <a href="dashboard.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Dashboard</a>
+  <a href="blog.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Blog</a>
+  <a href="contact.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Contact</a>
+</nav>
+
+<script>
+  function authUser(){ try{ return JSON.parse(localStorage.getItem('authUser')||'null'); }catch{ return null; } }
+
+  async function addFaq(question, answer=null){
+    const u = authUser(); if(!u) return alert('Please login to ask.');
+    const r = await fetch('http://localhost:3000/faqs', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ question, answer, asked_by: u.username })
+    });
+    if(r.ok) alert('FAQ added!');
+  }
+
+  async function commentFaq(faqId){
+    const u = authUser(); if(!u) return alert('Please login to comment.');
+    const text = prompt('Comment:'); if(!text) return;
+    const r = await fetch(`http://localhost:3000/faqs/${faqId}/comment`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: u.username, comment: text })
+    });
+    if(r.ok) alert('Comment added!');
+  }
+</script>
+
+  <header class="pt-12 text-center">
+    <h1 class="text-5xl font-bold tracking-wider mb-8">FREQUENTLY ASKED QUESTIONS</h1>
+    <p class="text-lg text-pink-200">Instant answers, helpful tips, and community wisdom.</p>
+  </header>
+  <section class="flex flex-wrap justify-center items-start gap-12 mt-16">
+    <div class="glow-box p-8 max-w-lg w-full mb-8">
+      <h2 class="text-2xl font-bold mb-6">General</h2>
+      <ul class="space-y-4 text-pink-100">
+        <li><strong>How do I register?</strong><br />As Player or Coach, fill the login form. Account is created instantly.</li>
+        <li><strong>Can I reset my password?</strong><br />Yes, click 'Forgot Password' and follow instructions.</li>
+        <li><strong>How do I leave feedback?</strong><br />Use the contact form and suggestions section.</li>
+      </ul>
+    </div>
+    <div class="glow-box p-8 max-w-lg w-full mb-8">
+      <h2 class="text-2xl font-bold mb-6">Account & Support</h2>
+      <ul class="space-y-4 text-pink-100">
+        <li><strong>How do I change my email?</strong><br />Go to Profile in Dashboard & update email.</li>
+        <li><strong>Is my data secure?</strong><br />Your data is protected and only visible to authorized admins.</li>
+      </ul>
+    </div>
+    <div class="glow-box p-8 max-w-lg w-full mb-8">
+      <h2 class="text-2xl font-bold mb-6">Community</h2>
+      <ul class="space-y-4 text-pink-100">
+        <li><strong>How to comment on blogs?</strong><br />Open any blog post and use the comment box.</li>
+        <li><strong>Can questions be upvoted?</strong><br />Yes, click the like button near an answer or comment.</li>
+      </ul>
+    </div>
+  </section>
+</body>
+</html>

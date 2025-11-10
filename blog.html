@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 40%, #3a0088 45%, #0e0026 100%, #e910e1 100%);
+    }
+    .glow-box {
+      box-shadow: 0 0 32px 8px #ffffff;
+      border-radius: 32px;
+      background: linear-gradient(135deg,#420075 60%, #d30978);
+      border: none;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen font-sans">
+  <!-- Add this NAV at the top under <body> -->
+<nav class="flex items-center gap-3 p-4">
+  <a href="homepage.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Home</a>
+  <a href="dashboard.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Dashboard</a>
+  <a href="faq.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">FAQ</a>
+  <a href="contact.html" class="button" style="background:#06b6d4;padding:8px 14px;border-radius:10px;color:#fff">Contact</a>
+</nav>
+
+<script>
+  function authUser(){ try{ return JSON.parse(localStorage.getItem('authUser')||'null'); }catch{ return null; } }
+  async function postBlog(title, content, image_url=null){
+    const u = authUser(); if(!u) return alert('Please login to post.');
+    const r = await fetch('http://localhost:3000/blogs', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ title, content, image_url, created_by: u.username })
+    });
+    if(r.ok) alert('Blog posted!');
+  }
+  async function commentBlog(postId){
+    const u = authUser(); if(!u) return alert('Please login to comment.');
+    const text = prompt('Comment:'); if(!text) return;
+    const r = await fetch(`http://localhost:3000/blogs/${postId}/comment`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: u.username, comment: text })
+    });
+    if(r.ok) alert('Comment added!');
+  }
+  async function likeBlog(postId){
+    const u = authUser(); if(!u) return alert('Please login to like.');
+    const r = await fetch(`http://localhost:3000/blogs/${postId}/like`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: u.username })
+    });
+    if(r.ok) alert('Liked!');
+  }
+</script>
+
+  <header class="pt-12 text-center">
+    <h1 class="text-5xl font-bold tracking-wider mb-8">LATEST BLOGS & UPDATES</h1>
+    <p class="text-lg text-pink-200">Explore stories, events, and tips from our players and coaches.</p>
+  </header>
+  <section class="flex flex-wrap justify-center gap-12 mt-16">
+    <div class="glow-box p-8 w-96 mb-10">
+      <h2 class="text-2xl font-bold mb-2">How To Improve Teamwork</h2>
+      <img src="https://cdn-icons-png.flaticon.com/512/1678/1678465.png" alt="Teamwork" class="w-24 mx-auto mb-2 rounded-lg" />
+      <p class="text-pink-100 mb-2">Learn top strategies to bond and succeed as a team!</p>
+      <p class="text-fuchsia-200">Likes: 23 | Comments: 7</p>
+    </div>
+    <div class="glow-box p-8 w-96 mb-10">
+      <h2 class="text-2xl font-bold mb-2">Coach’s Tips: Motivation</h2>
+      <p class="text-pink-100 mb-2">Stay positive, handle setbacks, and drive your team forward.</p>
+      <p class="text-fuchsia-200">Likes: 19 | Comments: 5</p>
+    </div>
+    <div class="glow-box p-8 w-96 mb-10">
+      <h2 class="text-2xl font-bold mb-2">Upcoming Events</h2>
+      <img src="https://img.icons8.com/nolan/96/calendar.png" alt="Events" class="w-24 mx-auto mb-2 rounded-lg" />
+      <p class="text-pink-100 mb-2">Don’t miss our hackathons, camps, and friendly matches!</p>
+      <p class="text-fuchsia-200">Likes: 11 | Comments: 2</p>
+    </div>
+  </section>
+</body>
+</html>

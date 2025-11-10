@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: radial-gradient(circle at 50% 40%, #8946e1 55%, #d568dd 80%, #e910e1 100%); }
+    .glow-box { box-shadow: 0 0 32px 8px hsl(288, 83%, 54%); border-radius: 24px; background: linear-gradient(135deg,#8e8eef 60%, #d30978); }
+    .button { background:#06b6d4; padding:8px 14px; border-radius:10px; color:#fff; transition:.2s; }
+    .button:hover { background:#0891b2; }
+  </style>
+</head>
+<body class="text-white min-h-screen font-sans">
+  <!-- NAV -->
+  <nav class="flex items-center gap-3 p-4">
+    <a href="homepage.html" class="button">Home</a>
+    <a href="dashboard.html" class="button">Dashboard</a>
+    <a href="blog.html" class="button">Blog</a>
+    <a href="faq.html" class="button">FAQ</a>
+  </nav>
+
+  <header class="pt-6 text-center">
+    <h1 class="text-4xl font-extrabold tracking-wider mb-2 drop-shadow">CONTACT US</h1>
+    <p class="text-lg text-pink-200">We want to hear from you! Fill the form below.</p>
+  </header>
+
+  <section class="flex justify-center items-center mt-10 px-4">
+    <div class="glow-box p-8 max-w-lg w-full">
+      <form id="contactForm" class="space-y-5">
+        <input id="cName" class="w-full px-4 py-3 rounded text-gray-900" placeholder="Your name" required />
+        <input id="cEmail" type="email" class="w-full px-4 py-3 rounded text-gray-900" placeholder="Your email" required />
+        <textarea id="cMsg" rows="4" class="w-full px-4 py-3 rounded text-gray-900" placeholder="Message" required></textarea>
+        <button class="w-full py-3 rounded font-bold bg-pink-600 hover:bg-fuchsia-600 transition">Send Message</button>
+      </form>
+      <p id="cToast" class="mt-4 text-green-200 hidden">Your message submitted. We will reach out to you ASAP.</p>
+      <p id="cErr" class="mt-2 text-red-200 hidden"></p>
+    </div>
+  </section>
+
+  <script>
+    function authUser(){ try{ return JSON.parse(localStorage.getItem('authUser')||'null'); }catch{ return null; } }
+    function authToken(){ try{ return localStorage.getItem('authToken') || null; }catch{ return null; } }
+
+    // Prefill from current profile if available
+    const u = authUser();
+    if (u) {
+      const n = document.getElementById('cName');
+      const e = document.getElementById('cEmail');
+      if (n && !n.value) n.value = u.username || '';
+      if (e && !e.value) e.value = u.email || '';
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const payload = {
+        name: document.getElementById('cName').value.trim(),
+        email: document.getElementById('cEmail').value.trim(),
+        message: document.getElementById('cMsg').value.trim()
+      };
+      const headers = { 'Content-Type': 'application/json' };
+      const t = authToken(); if (t) headers['Authorization'] = 'Bearer ' + t;
+
+      const r = await fetch('http://localhost:3000/contact', {
+        method: 'POST', headers, body: JSON.stringify(payload)
+      });
+
+      const ok = r.ok;
+      const toast = document.getElementById('cToast');
+      const err = document.getElementById('cErr');
+      if (ok) {
+        toast.classList.remove('hidden');
+        err.classList.add('hidden');
+        (ev.target).reset();
+        // Refill tied to profile so user email remains visible
+        if (u) {
+          document.getElementById('cName').value = u.username || '';
+          document.getElementById('cEmail').value = u.email || '';
+        }
+      } else {
+        const data = await r.json().catch(()=>({error:'Failed to submit'}));
+        err.textContent = data.error || 'Failed to submit';
+        err.classList.remove('hidden');
+        toast.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
